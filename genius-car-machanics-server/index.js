@@ -15,7 +15,22 @@ const client = new MongoClient(uri);
 const run = async () => {
    try{
       await client.connect();
-      console.log('database ready')
+      
+      const database = client.db('carMechanics')
+      const servicesCollection = database.collection('services')
+
+      // GET API
+      app.get('/services', async (req, res) => {
+         const service = {
+            name: "ENGINE DIAGNOSTIC",
+            price: "300",
+            description: "Lorem ipsum dolor sit amet, consectetu radipisi cing elitBeatae autem aperiam nequ quaera molestias voluptatibus harum ametipsa.",
+            img: "https://i.ibb.co/dGDkr4v/1.jpg"
+         }
+
+         const result = await servicesCollection.insertOne(service)
+         console.log(result)
+      })
 
    } finally{
       await client.close();
