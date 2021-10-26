@@ -21,22 +21,27 @@ const run = async () => {
 
       // GET API
       app.get('/services', async (req, res) => {
-         const service = {
-            name: "ENGINE DIAGNOSTIC",
-            price: "300",
-            description: "Lorem ipsum dolor sit amet, consectetu radipisi cing elitBeatae autem aperiam nequ quaera molestias voluptatibus harum ametipsa.",
-            img: "https://i.ibb.co/dGDkr4v/1.jpg"
-         }
+         const cursor = servicesCollection.find({})
+         const services = await cursor.toArray()
+         res.send(services)
+      })
 
+      // POST API
+      app.post('/services', async (req, res) => {
+         const service = req.body
          const result = await servicesCollection.insertOne(service)
-         console.log(result)
+
+         // console.log(result)
+         res.send(result)
       })
 
    } finally{
-      await client.close();
+      // await client.close();
    }
 }
 run().catch(console.dir)
+
+
 app.get('/', (req, res) => {
    console.log(uri)
    res.send('Project is working well!')
